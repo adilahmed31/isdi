@@ -35,7 +35,8 @@ import time
 from flask import url_for
 import random
 import config
-adb=config.ADB_PATH
+# adb=config.ADB_PATH
+adb = "adb" #Hotfix to let adb be resolved locally
 
 
 def run_command(cmd, **kwargs):
@@ -179,5 +180,5 @@ if __name__ == "__main__":
     # ser = "ZY224F8TKG"
     # print(get_screen_res(ser)
     # print(is_screen_on(ser))
-    # do_privacy_check(ser, 'account')
+    do_privacy_check('', 'account')
     take_screenshot(ser='')

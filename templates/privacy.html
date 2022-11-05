@@ -16,14 +16,49 @@
      $('#loadingDiv').hide();
  });
  
+ //Toggle Visibility
+ // os is either "android" or "apple"
+ function toggle(os){
+    var targetDiv, hideDiv;
+    if (os == "apple"){
+        targetDiv = document.getElementById("apple");
+        hideDiv = document.getElementById("android");
+    }
+    else{
+        targetDiv = document.getElementById("android");
+        hideDiv = document.getElementById("apple");
+    }
+    
+    if (targetDiv.style.display == "none"){
+        targetDiv.style.display = "block";
+        hideDiv.style.display = "none";
+    } else {
+        targetDiv.style.display = "block";
+    }
+ };
 </script>
 <div class="container">
     <div>
-        <h4 class="display-4"> Privacy Checkup <a href="#" style="float:right; font-size: 20px" onclick="close_window('close the privacy checkup?');return false;">close the privacy checkup</a>
+        <h4 class="display-6"><span style="color: green; font-family: sans-serif; font-size: 1.1em"><b>Privacy Checkup and Evidence Collection (Experimental)</b></span>
+        <span style="float: right; font-size: 15px">
+        <a href="#" onclick="close_window('close the privacy checkup?');return false;">close the privacy checkup</a>
+        </span>
         </h4>
-        <h3>Android</h3>
-	<img src="/webstatic/images/android.resiz.png">
-	<br><br>
+        <br><p>This is a semi-automated workflow to check account settings for potential misconfigurations and document evidence. Follow the steps on screen to generate the privacy report. 
+        </p -->
+    <br>
+       
+	<!-- <img src="/webstatic/images/android.resiz.png"> -->
+    <b>Step 1: Select the type of device</b>
+    <div class = "display-4">
+        {% for k, v in  {"android": "Android", "apple": "Apple"}.items() %}
+        <button class="btn btn-primary mx-2"  onclick=" get(`/privacy/{{ k }}`); toggle('{{ k }}')" value="{{ k }}">{{ v | title }}</button>
+        {% endfor %}
+    </div>
+    <div class = "jumbotron" id="msg"></div>
+    <div id = "android" style="display: none">
+    <h3>Android</h3>
+
         <div class="display-4">
             {% for k, v in  {"account": "Account", "sync": "Accounts and Sync", "backup": "Backup account", "gmap": "Google Map Sharing", "gphotos": "Google Photos Sharing"}.items() %}
             <button class="btn btn-primary mx-2"  onclick="get('/privacy/android/{{ k }}')" value="{{ k }}">{{ v | title }}</button>
@@ -35,9 +70,10 @@
 	<br><br>
         <div id="loadingDiv" align="center"><img src="{{ url_for('static', filename='images/waiting.gif') }}"/></div>
 	<br><br>
-
+        </div>
+    <div id = "apple" style="display: none">
         <h3>iOS (iPhone/iPad)</h3>
-	<img src="/webstatic/images/apple.resized.png">
+	<!-- <img src="/webstatic/images/apple.resized.png"> -->
 	<br><br>
         <div class="jumbotron">
             Please go to 
@@ -54,5 +90,6 @@
             </li>
             <li> Check the location sharing  in <code>Find my Friends</code> app.</li>
         </div>
+    </div>
     </div>
 </div>

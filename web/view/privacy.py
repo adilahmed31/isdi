@@ -2,6 +2,7 @@ from flask import request, render_template
 from web import app
 from web.view import get_device
 from privacy_scan_android import do_privacy_check
+from web.view.scan import first_element_or_none
 import config
 
 @app.route("/privacy", methods=['GET'])
@@ -16,6 +17,26 @@ def privacy():
         title=config.TITLE
     )
 
+@app.route("/privacy/<device>", methods=['GET'])
+def privacy_scope(device):
+    sc = get_device(device)
+    if not sc:
+        return "Please choose one device to scan."
+    ser = sc.devices()
+
+    print("Device detected: {}".format(ser))
+    if not ser:
+        # FIXME: add pkexec scripts/ios_mount_linux.sh workflow for iOS if
+        # needed.
+        error = "<b>A device wasn't detected. Please follow the "\
+            "<a href='/instruction' target='_blank' rel='noopener'>"\
+            "setup instructions here.</a></b>"
+        return error
+
+    ser = first_element_or_none(ser)
+    # clientid = new_client_id()
+    print(">>>Privacy Checkup for ", device, ser, "<<<<<")
+    return ("abcd")
 
 @app.route("/privacy/<device>/<cmd>", methods=['GET'])
 def privacy_scan(device, cmd):
