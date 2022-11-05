@@ -154,3 +154,7 @@ __MACOSX
 *~test
 *.apk
 dumps/android_scan.logs
+
+## metadata generated during testing privacy checkup
+tmp_screencap.png
+
