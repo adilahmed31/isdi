@@ -35,7 +35,6 @@ import time
 from flask import url_for
 import random
 import config
-# adb=config.ADB_PATH
 adb = "adb" #Hotfix to let adb be resolved locally
 
 

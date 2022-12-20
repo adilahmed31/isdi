@@ -5,7 +5,7 @@ from privacy_scan_android import do_privacy_check
 from web.view.scan import first_element_or_none
 import config
 
-social_apps = ['com.whatsapp','com.snapchat.android','com.facebook.orca','org.telegram.messenger']
+social_apps = {'com.whatsapp':'Whatsapp','com.snapchat.android':'Snapchat','com.facebook.orca':'Facebook','org.telegram.messenger':'Telegram'}
 
 @app.route("/privacy", methods=['GET'])
 def privacy():
@@ -39,7 +39,7 @@ def privacy_scope(device):
     # clientid = new_client_id()
     print(">>>Privacy Checkup for ", device, ser, "<<<<<")
     installed_apps = sc.get_apps(ser)
-    res = ",".join([app for app in social_apps if app in installed_apps])
+    res = "Detected Social Media: " + ", ".join([social_apps[app] for app in social_apps if app in installed_apps])
     return res
 
 @app.route("/privacy/<device>/<cmd>", methods=['GET'])
